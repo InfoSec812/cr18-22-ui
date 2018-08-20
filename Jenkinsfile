@@ -189,7 +189,7 @@ items:
 
 pipeline {
     agent {
-        label 'jenkins-slave-mvn'
+        label 'jenkins-slave-npm'
     }
     environment {
         PROJECT_NAME = 'cr18-22'
@@ -198,14 +198,14 @@ pipeline {
     stages {
         stage('Quality And Security') {
             parallel {
-                stage('OWASP Dependency Check') {
+                stage('NPM Audit') {
                     steps {
-                        sh 'mvn -T 2 dependency-check:check'
+                        sh 'npm audit'
                     }
                 }
                 stage('Compile & Test') {
                     steps {
-                        sh 'mvn -T 2 package'
+                        sh 'npm run build'
                     }
                 }
                 stage('Ensure SonarQube Webhook is configured') {
@@ -230,7 +230,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('sonar') {
-                        sh 'mvn -T 2 sonar:sonar'
+                        sh 'sonar-scanner '
                     }
                     def qualitygate = waitForQualityGate()
                     if (qualitygate.status != "OK") {
@@ -241,11 +241,6 @@ pipeline {
         }
         stage('OpenShift Deployments') {
             parallel {
-                stage('Publish Artifacts') {
-                    steps {
-                        sh 'mvn package deploy:deploy -DskipTests -DaltDeploymentRepository=nexus::default::http://nexus:8081/repository/maven-snapshots/'
-                    }
-                }
                 stage('Create Binary BuildConfig') {
                     steps {
                         script {
@@ -272,7 +267,7 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                    openshift.selector('bc', PROJECT_NAME).startBuild("--from-file=target/${PROJECT_NAME}-thorntail.jar", '--wait')
+                    openshift.selector('bc', PROJECT_NAME).startBuild("--from-dir=dist", '--wait')
                 }
             }
         }
