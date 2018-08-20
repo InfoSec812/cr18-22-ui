@@ -59,7 +59,7 @@ items:
     env: |-
       {
           "hostname": "localhost",
-          "service_port": 3000
+          "service_port": 8080
       }
   kind: ConfigMap
   metadata:
@@ -112,13 +112,13 @@ items:
             - name: JAVA_ARGS
               value: '-cluster -cluster-port 5800'
             ports:
-              - containerPort: 3000
+              - containerPort: 8080
                 protocol: TCP
             livenessProbe:
                 failureThreshold: 3
                 httpGet:
                   path: /api/v1/health
-                  port: 3000
+                  port: 8080
                   scheme: HTTP
                 initialDelaySeconds: 5
                 periodSeconds: 10
@@ -128,7 +128,7 @@ items:
               failureThreshold: 3
               httpGet:
                 path: /api/v1/health
-                port: 3000
+                port: 8080
                 scheme: HTTP
               initialDelaySeconds: 10
               periodSeconds: 10
@@ -162,7 +162,7 @@ items:
       - name: http
         port: 3000
         protocol: TCP
-        targetPort: 3000
+        targetPort: 8080
     selector:
       name: '${project}'
     sessionAffinity: None
