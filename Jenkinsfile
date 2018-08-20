@@ -196,15 +196,15 @@ pipeline {
         KUBERNETES_NAMESPACE = "${ciProject}"
     }
     stages {
-        stage('Prep Sonar Scanner') {
-          steps {
-            sh "curl -L -o sonar-scanner.zip 'https://github.com/SonarSource/sonar-scanner-cli/archive/3.2.0.1227.tar.gz'"
-            sh "unzip -x sonar-scanner.zip"
-            sh 'mv sonar-scanner-*-linux sonar-scanner'
-          }
-        }
         stage('Quality And Security') {
             parallel {
+                stage('Prep Sonar Scanner') {
+                  steps {
+                    sh "curl -L -o sonar-scanner.zip 'https://github.com/SonarSource/sonar-scanner-cli/archive/3.2.0.1227.tar.gz'"
+                    sh "unzip -x sonar-scanner.zip"
+                    sh 'mv sonar-scanner-*-linux sonar-scanner'
+                  }
+                }
                 stage('Compile & Test') {
                     steps {
                         sh 'npm install'
