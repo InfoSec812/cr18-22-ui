@@ -192,7 +192,7 @@ pipeline {
         label 'jenkins-slave-npm'
     }
     environment {
-        PROJECT_NAME = 'cr18-22'
+        PROJECT_NAME = 'cr18-22-ui'
         KUBERNETES_NAMESPACE = "${ciProject}"
     }
     stages {
