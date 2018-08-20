@@ -196,6 +196,12 @@ pipeline {
         KUBERNETES_NAMESPACE = "${ciProject}"
     }
     stages {
+        stage('Prep Slave') {
+            steps {
+                sh 'npm install -g @vue/cli'
+                sh 'vue add quasar'
+            }
+        }
         stage('Quality And Security') {
             parallel {
                 stage('NPM Audit') {
