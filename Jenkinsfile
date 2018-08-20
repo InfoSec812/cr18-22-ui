@@ -276,7 +276,7 @@ pipeline {
         stage('Promote to TEST') {
             steps {
                 script {
-                    openshift.tag("${PROJECT_NAME}:latest", "${testProject}/${PROJECT_NAME}:latest")
+                    openshift.tag("${ciProject}/${PROJECT_NAME}:latest", "${testProject}/${PROJECT_NAME}:latest")
                 }
             }
         }
@@ -287,7 +287,7 @@ pipeline {
             }
             steps {
                 script {
-                    openshift.tag("${PROJECT_NAME}:latest", "${devProject}/${PROJECT_NAME}:latest")
+                    openshift.tag("${ciProject}/${PROJECT_NAME}:latest", "${devProject}/${PROJECT_NAME}:latest")
                 }
             }
         }
