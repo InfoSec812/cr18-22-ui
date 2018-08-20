@@ -198,7 +198,7 @@ pipeline {
     stages {
         stage('Prep Sonar Scanner') {
           steps {
-            sh "curl -L -o sonar-scanner.zip 'https://akamai.bintray.com/07/07a50ec270a36cb83f26fe93233819c53c145248c638f4591880f1bd36e331d6?__gda__=exp=1534781610~hmac=a6bd78d8433afd6173c4bd8917eff3089b1e0ada162090b8102790cf1e821528&response-content-disposition=attachment%3Bfilename%3D%22sonar-scanner-cli-3.2.0.1227-linux.zip%22&response-content-type=application%2Fzip&requestInfo=U2FsdGVkX18ABhchMOQyLZ-TkJi4cKa2gAn34yDqPKmbn8EZO3lnQ_8dJxd7LpBSOelPp16Cw9SFSf-2lDNbJ96ZUln81t8QBbtMQE_jEsqnr_bhKCCBnxeV74v3QHXi2NhkCCMN168ZjDxqLZUNydgRwyKFU9krXGGxILrfMn0u8urKSkmZXp2TSgD2jeoW3Za2t1LHYGFqDcP3j1K-kWrjxh-8B4QBFs7qeGOrpbA&response-X-Checksum-Sha1=0c3074dc06491fdd060c1039ee8d5dae95a2bddc&response-X-Checksum-Sha2=07a50ec270a36cb83f26fe93233819c53c145248c638f4591880f1bd36e331d6'"
+            sh "curl -L -o sonar-scanner.zip 'https://github.com/SonarSource/sonar-scanner-cli/archive/3.2.0.1227.tar.gz'"
             sh "unzip -x sonar-scanner.zip"
             sh 'mv sonar-scanner-*-linux sonar-scanner'
           }
