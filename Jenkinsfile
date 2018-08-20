@@ -15,33 +15,44 @@ def buildConfig = { project, namespace, buildSecret, fromImageStream ->
     }
     def template = """
 ---
-apiVersion: build.openshift.io/v1
-kind: BuildConfig
-metadata:
-  labels:
-    build: ${project}
-  name: ${project}
-  namespace: ${namespace}
-spec:
-  failedBuildsHistoryLimit: 5
-  nodeSelector: null
-  output:
-    to:
-      kind: ImageStreamTag
-      name: '${project}:latest'
-  postCommit: {}
-  resources: {}
-  runPolicy: Serial
-  source:
-    binary: {}
-    type: Binary
-  strategy:
-    sourceStrategy:
-      from:
-        kind: DockerImage
-        name: '${fromImageStream}'
-    type: Source
-  successfulBuildsHistoryLimit: 5
+apiVersion: v1
+kind: List
+items:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      build: '${project}'
+    name: '${project}'
+    namespace: '${namespace}'
+  spec: {}
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      build: ${project}
+    name: ${project}
+    namespace: ${namespace}
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: '${project}:latest'
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      binary: {}
+      type: Binary
+    strategy:
+      sourceStrategy:
+        from:
+          kind: DockerImage
+          name: '${fromImageStream}'
+      type: Source
+    successfulBuildsHistoryLimit: 5
 """
     openshift.withCluster() {
         openshift.apply(template, "--namespace=${namespace}")
@@ -54,16 +65,6 @@ def deploymentConfig = {project, ciNamespace, targetNamespace ->
 apiVersion: v1
 kind: List
 items:
-- apiVersion: v1
-  data:
-    env: |-
-      {
-          "hostname": "localhost",
-          "service_port": 8080
-      }
-  kind: ConfigMap
-  metadata:
-    name: insult-config
 - apiVersion: v1
   kind: ImageStream
   metadata:
