@@ -234,7 +234,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('sonar') {
-                        sh './sonar-scanner/bin/sonar-scanner '
+                        sh 'JAVA_TOOL_OPTIONS=''; ./sonar-scanner/bin/sonar-scanner '
                     }
                     def qualitygate = waitForQualityGate()
                     if (qualitygate.status != "OK") {
