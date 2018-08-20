@@ -227,10 +227,11 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('sonar') {
-                    sh "curl -L 'https://github.com/SonarSource/sonar-scanner-cli/archive/3.2.0.1227.tar.gz' | tar -xz"
-                    sh 'mv sonar-scanner-cli* sonar-scanner'
-                        sh 'ls -l'
-                        sh 'export JAVA_TOOL_OPTIONS=""; ./sonar-scanner/bin/sonar-scanner '
+                      sh "curl -o sonar-scanner.zip -L 'https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip'"
+                      sh 'unzip -x sonar-scanner.zip'
+                      sh 'mv sonar-scanner-*-linux sonar-scanner'
+                      sh 'ls -l'
+                      sh 'export JAVA_TOOL_OPTIONS=""; ./sonar-scanner/bin/sonar-scanner '
                     }
                     def qualitygate = waitForQualityGate()
                     if (qualitygate.status != "OK") {
