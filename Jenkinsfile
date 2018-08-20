@@ -203,7 +203,6 @@ pipeline {
                         sh 'npm install'
                         sh 'npm run build'
                         sh 'npm run test:unit'
-                        sh 'npm run test:e2e'
                     }
                 }
                 stage('Ensure SonarQube Webhook is configured') {
