@@ -196,11 +196,6 @@ pipeline {
         KUBERNETES_NAMESPACE = "${ciProject}"
     }
     stages {
-        stage('Prep Slave') {
-            steps {
-                sh /npm install -g @vue/cli {"useConfigFiles":false,"plugins":{"@vue/cli-plugin-babel":{},"@vue/cli-plugin-pwa":{},"vue-cli-plugin-quasar":{"quasar":{"theme":"mat","replaceComponents":true,"all":false,"rtlSupport":false,"iconSet":"material-icons","i18n":"en-us","features":["animate","ie","material-icons"]}},"@vue/cli-plugin-eslint":{"config":"airbnb","lintOn":["save"]},"@vue/cli-plugin-unit-jest":{},"@vue/cli-plugin-e2e-nightwatch":{}},"router":true,"vuex":true,"cssPreprocessor":"less"}/
-            }
-        }
         stage('Quality And Security') {
             parallel {
                 stage('NPM Audit') {
@@ -210,6 +205,7 @@ pipeline {
                 }
                 stage('Compile & Test') {
                     steps {
+                        sh 'npm install'
                         sh 'npm run build'
                     }
                 }
