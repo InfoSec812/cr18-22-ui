@@ -268,7 +268,7 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                    openshift.selector('bc', PROJECT_NAME).startBuild("--from-dir=dist", '--wait')
+                    openshift.selector('bc', PROJECT_NAME).startBuild("--from-dir=dist/", "--follow")
                 }
             }
         }
