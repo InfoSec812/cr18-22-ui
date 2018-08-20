@@ -201,7 +201,7 @@ pipeline {
                 stage('Prep Sonar Scanner') {
                   steps {
                     sh "curl -L 'https://github.com/SonarSource/sonar-scanner-cli/archive/3.2.0.1227.tar.gz' | tar -xz"
-                    sh 'mv sonar-scanner-cli*-linux sonar-scanner'
+                    sh 'mv sonar-scanner-cli* sonar-scanner'
                   }
                 }
                 stage('Compile & Test') {
